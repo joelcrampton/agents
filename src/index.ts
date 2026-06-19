@@ -1,10 +1,14 @@
 import 'dotenv/config';
-import { generateText } from 'ai';
+import { ToolLoopAgent, generateText } from 'ai';
 import { google } from '@ai-sdk/google';
 
-const { text } = await generateText({
+const gemini = new ToolLoopAgent({
   model: google('gemini-2.5-flash'),
-  prompt: 'Hello.'
+  instructions: 'You are a helpful assistant.',
 });
 
-console.log(text);
+const result = await gemini.generate({
+  prompt: 'Hello.',
+});
+
+console.log(result.text);
