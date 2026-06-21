@@ -32,18 +32,6 @@ const gemini = new ToolLoopAgent({
       },
     })
   },
-  toolChoice: {
-    type: 'tool',
-    toolName: 'searchWeb' // Force the searchWeb tool to be used on every step
-  },
-  prepareStep: ({ steps }) => {
-    const searched = steps.some(step => step.toolCalls?.some(tc => tc.toolName === 'searchWeb'));
-    if (searched) {
-      // Force a text-only response on the next step after the searchWeb tool is used
-      // Overrides the base toolChoice settings
-      return { toolChoice: 'none' }; // Or activeTools: []
-    }
-  },
 });
 
 const result = await gemini.generate({
