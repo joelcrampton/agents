@@ -1,9 +1,9 @@
 # Agents
 
 Agents are large language models (LLMs) that use tools in a loop to accomplish tasks.
-- LLMs are trained with data up to a certain date
-- If we ask questions about current events beyond that date the LLM is unable to response effectively
-- We can define tools that can be used to provide additional information/guidance when training data is insufficient
+- LLMs are trained with data up to a certain date.
+- If we ask questions about current events beyond that date the LLM is unable to response effectively.
+- We can define tools that can be used to provide additional information/guidance when training data is insufficient.
 
 We can do this using the [`ToolLoopAgent`](https://ai-sdk.dev/docs/agents/building-agents).
 
@@ -38,10 +38,10 @@ const newsAgent = new ToolLoopAgent({
 });
 ```
 
-- Select a `model`. All major LLM providers are supported
-- Provide `instructions` to the LLM to tell it how to act
-- Define `tools` to extend the LLM's capabilities
-  - For example, `searchWeb` allows the LLM to search the web for information
-  - Interestingly, even with the same prompt the LLM might not always choose to invoke tools with the same `inputSchema`
-- Use `stopWhen` to determine how many steps a loop makes before it stops. Default is 20
-- Define an `output` schema with zod so the LLM responds with an expected structure
+- Select a `model`. All major LLM providers are supported.
+- Provide `instructions` to the LLM to tell it how to act.
+- Define `tools` to extend the LLM's capabilities.
+  - For example, `searchWeb` allows the LLM to search the web for information.
+  - Interestingly, even with the same prompt the LLM might not always choose to invoke tools with the same `inputSchema`.
+- Use `stopWhen` to determine how many steps a loop makes before it stops. Default is 20.
+- Define an `output` schema with zod so the LLM responds with an expected structure.
