@@ -5,7 +5,7 @@ Agents are large language models (LLMs) that use tools in a loop to accomplish t
 - If we ask questions about current events beyond that date the LLM is unable to response effectively
 - We can define tools that can be used to provide additional information/guidance when training data is insufficient
 
-We can do this using the `ToolLoopAgent`.
+We can do this using the [`ToolLoopAgent`](https://ai-sdk.dev/docs/agents/building-agents).
 
 ```ts
 const newsAgent = new ToolLoopAgent({
