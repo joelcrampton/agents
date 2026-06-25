@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/joelcrampton/agents#readme",
   "dependencies": {
-    "@ai-sdk/google": "^3.0.83",
+    "@ai-sdk/anthropic": "^3.0.86",
     "@tavily/core": "^0.7.6",
     "ai": "^6.0.208",
     "dotenv": "^17.4.2",

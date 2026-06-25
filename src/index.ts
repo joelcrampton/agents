@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { ToolLoopAgent, Output, tool, stepCountIs } from 'ai';
-import { google } from '@ai-sdk/google';
+import { anthropic } from '@ai-sdk/anthropic';
 import z from 'zod';
 import { tavily } from '@tavily/core';
 
@@ -13,12 +13,11 @@ const headlineSchema = z.object({
   source: z.string().describe('The news source e.g. BBC, Reuters'),
   url: z.url().describe('Link to the article'),
   summary: z.string().describe('One sentence summary of the article'),
-  publishedAt: z.string().nullable().describe('ISO timestamp if available'),
   category: z.enum(['politics', 'technology', 'business', 'science', 'sport', 'other']),
 });
 
 const newsAgent = new ToolLoopAgent({
-  model: google('gemini-2.5-flash'),
+  model: anthropic('claude-haiku-4-5'),
   instructions: 'You are a news aggregator. Search for headlines and return structured results.',
   stopWhen: stepCountIs(3),
   output: Output.object({
@@ -43,11 +42,11 @@ const newsAgent = new ToolLoopAgent({
         });
       },
     })
-  },
+  }
 });
 
 const result = await newsAgent.generate({
   prompt: 'What are the top 3 news headlines today?',
 });
 
-console.log(result.output.headlines);
+console.log(result.output);
