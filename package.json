@@ -1,0 +1,35 @@
+{
+  "name": "agents",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "tsx src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joelcrampton/agents.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joelcrampton/agents/issues"
+  },
+  "homepage": "https://github.com/joelcrampton/agents#readme",
+  "dependencies": {
+    "@ai-sdk/anthropic": "^3.0.86",
+    "@tavily/core": "^0.7.6",
+    "ai": "^6.0.208",
+    "dotenv": "^17.4.2",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^26.0.0",
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3"
+  }
+}
