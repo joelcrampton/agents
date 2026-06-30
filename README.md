@@ -45,3 +45,5 @@ const newsAgent = new ToolLoopAgent({
   - Interestingly, even with the same prompt the LLM might not always choose to invoke tools with the same `inputSchema`.
 - Use `stopWhen` to determine how many steps a loop makes before it stops. Default is 20.
 - Define an `output` schema with zod so the LLM responds with an expected structure.
+
+## Wishlist Agent
