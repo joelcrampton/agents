@@ -45,20 +45,11 @@ The `wishlistAgent` finds clothing items on the web and saves the ones you pick 
 
 ### How it works
 
-1. **Profile check**
-On the first run it prompts you for any missing sizes (`shoe`, `waist`, `shirt`) and saves them to the `profile` table. Subsequent runs skip this.
-
-2. **Context**
-Your sizes are loaded from the `profile` table into the agent's `instructions`, so searches are tailored to you.
-
-3. **Search**
-The agent calls the `searchClothing` tool (Tavily web search) to find matching items and returns them as structured results.
-
-4. **Select**
-Pick the best result by number from the printed list.
-
-5. **Save**
-The chosen item is inserted into the `wishlist` table.
+1. **Profile check:** On the first run it prompts you for any missing sizes (`shoe`, `waist`, `shirt`) and saves them to the `profile` table. Subsequent runs skip this.
+2. **Context:** Your sizes are loaded from the `profile` table into the agent's `instructions`, so searches are tailored to you.
+3. **Search:** The agent calls the `searchClothing` tool (Tavily web search) to find matching items and returns them as structured results.
+4. **Select:** Pick the best result by number from the printed list.
+5. **Save:** The chosen item is inserted into the `wishlist` table.
 
 ### Usage
 
