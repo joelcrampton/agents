@@ -8,30 +8,23 @@ Agents are large language models (LLMs) that use tools in a loop to accomplish t
 We can do this using the [`ToolLoopAgent`](https://ai-sdk.dev/docs/agents/building-agents).
 
 ```ts
-const newsAgent = new ToolLoopAgent({
+const agent = new ToolLoopAgent({
   model: anthropic('claude-haiku-4-5'),
-  instructions: 'You are a news aggregator. Search for headlines and return structured results.',
-  stopWhen: stepCountIs(3),
+  instructions: '',
+  stopWhen: stepCountIs(n),
   output: Output.object({
     schema: z.object({
-      headlines: z.array(headlineSchema).describe('Top news headlines'),
-      fetchedAt: z.string().describe('ISO timestamp of when this was fetched'),
-      query: z.string().describe('The search query used'),
+      ...
     }),
   }),
   tools: {
     searchWeb: tool({
-      description: 'Search the web for information',
+      description: '',
       inputSchema: z.object({
-        query: z.string(),
-        limit: z.number().min(1).max(10).default(10)
+        ...
       }),
-      execute: async ({ query, limit }) => {
-        console.log(`Executing searchWeb for ${limit} results.`);
-        return await client.search(query, {
-          searchDepth: 'basic',
-          maxResults: limit
-        });
+      execute: async () => {
+        ...
       },
     })
   }
@@ -41,9 +34,36 @@ const newsAgent = new ToolLoopAgent({
 - Select a `model`. All major LLM providers are supported.
 - Provide `instructions` to the LLM to tell it how to act.
 - Define `tools` to extend the LLM's capabilities.
-  - For example, `searchWeb` allows the LLM to search the web for information.
+  - For example, a `searchWeb` tool could the LLM to search the web for information.
   - Interestingly, even with the same prompt the LLM might not always choose to invoke tools with the same `inputSchema`.
 - Use `stopWhen` to determine how many steps a loop makes before it stops. Default is 20.
 - Define an `output` schema with zod so the LLM responds with an expected structure.
 
 ## Wishlist Agent
+
+The `wishlistAgent` finds clothing items on the web and saves the ones you pick to a Supabase wishlist. It uses your stored sizes to tailor each search.
+
+### How it works
+
+1. **Profile check**
+On the first run it prompts you for any missing sizes (`shoe`, `waist`, `shirt`) and saves them to the `profile` table. Subsequent runs skip this.
+
+2. **Context**
+Your sizes are loaded from the `profile` table into the agent's `instructions`, so searches are tailored to you.
+
+3. **Search**
+The agent calls the `searchClothing` tool (Tavily web search) to find matching items and returns them as structured results.
+
+4. **Select**
+Pick the best result by number from the printed list.
+
+5. **Save**
+The chosen item is inserted into the `wishlist` table.
+
+### Usage
+
+Create an `.env` using `.env.example` as a guide.
+
+```bash
+npm start -- "The clothing item you want"
+```
