@@ -65,5 +65,10 @@ The chosen item is inserted into the `wishlist` table.
 Create an `.env` using `.env.example` as a guide.
 
 ```bash
-npm start -- "The clothing item you want"
+npm start -- add "The clothing item you want"   # search and save a pick
+npm start -- list                               # show your wishlist
+npm start -- remove <id>                        # remove an item (ids shown by list)
+npm start -- help                               # show all commands
 ```
+
+`npm start -- "The clothing item you want"` is a shortcut for the `add` command.
