@@ -3,7 +3,7 @@ import { anthropic } from '@ai-sdk/anthropic';
 import { tavily } from '@tavily/core';
 import { createInsertSchema } from 'drizzle-zod';
 import z from 'zod';
-import { wishlist } from './db/schema.js';
+import { wishlist } from '../db/schema.js';
 
 const tav = tavily({
   apiKey: process.env.TAVILY_API_KEY!,

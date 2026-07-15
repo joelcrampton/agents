@@ -45,30 +45,56 @@ The `wishlistAgent` finds clothing items on the web and saves the ones you pick 
 
 ### How it works
 
-1. **Profile check**
-On the first run it prompts you for any missing sizes (`shoe`, `waist`, `shirt`) and saves them to the `profile` table. Subsequent runs skip this.
+1. **Context**
+Your sizes (`shoe`, `waist`, `shirt`) are loaded from the `profile` table into the agent's `instructions`, so searches are tailored to you. Set them under **Your sizes** in the web app.
 
-2. **Context**
-Your sizes are loaded from the `profile` table into the agent's `instructions`, so searches are tailored to you.
-
-3. **Search**
+2. **Search**
 The agent calls the `searchClothing` tool (Tavily web search) to find matching items and returns them as structured results.
 
-4. **Select**
-Pick the best result by number from the printed list.
+3. **Select**
+Click **Add to wishlist** on the result you want.
 
-5. **Save**
-The chosen item is inserted into the `wishlist` table.
+4. **Save**
+The chosen item is inserted into the `wishlist` table and appears in your list.
 
-### Usage
+## Project structure
 
-Create an `.env` using `.env.example` as a guide.
+The repo is an npm workspace: a React app and an Express API over a shared service core.
 
-```bash
-npm start -- add "The clothing item you want"   # search and save a pick
-npm start -- list                               # show your wishlist
-npm start -- remove <id>                        # remove an item (ids shown by list)
-npm start -- help                               # show all commands
+```
+src/
+  db/         Drizzle schema and Postgres client
+  services/   Business logic: wishlist CRUD, profile, agent search
+  agent/      The wishlist ToolLoopAgent definition
+  api/        Express server and routes (thin HTTP layer over services)
+web/          React frontend (Vite), its own workspace package
+drizzle/      Generated SQL migrations
 ```
 
-`npm start -- "The clothing item you want"` is a shortcut for the `add` command.
+The API (`src/api/`) is a thin interface layer: routes validate input and delegate to `src/services/`, which owns all database access and agent orchestration.
+
+## API
+
+| Method | Path                | Description                                             |
+| ------ | ------------------- | ------------------------------------------------------- |
+| GET    | `/api/wishlist`     | List saved items, newest first                          |
+| POST   | `/api/search`       | Run the agent search (`{ "query": "..." }`)             |
+| POST   | `/api/wishlist`     | Save a picked item                                      |
+| DELETE | `/api/wishlist/:id` | Remove an item by id                                    |
+| GET    | `/api/profile`      | Read your stored sizes                                  |
+| PUT    | `/api/profile`      | Set sizes (`{ "entries": [{ "key": "shoe", "value": "10" }] }`; empty value clears) |
+
+Missing sizes are simply skipped by the search — nothing is required up front.
+
+## Usage
+
+Create an `.env` using `.env.example` as a guide, then:
+
+```bash
+npm install   # first time only — installs both workspaces
+
+npm run api   # Express API on http://localhost:3001
+npm run web   # Vite dev server on http://localhost:5173 (proxies /api)
+```
+
+Open http://localhost:5173, optionally fill in **Your sizes**, search for an item, and click **Add to wishlist** on the result you want. Saved items appear below with a **Remove** button.
